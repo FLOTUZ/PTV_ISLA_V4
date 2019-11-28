@@ -4,13 +4,29 @@ package main;
 import DAO_Y_VO.ClienteDAO;
 import DAO_Y_VO.ClienteVO;
 import Conector.Conector;
+import DAO_Y_VO.Nota_VentaVO;
+
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
     static Conector con = new Conector();
 
     public static void main(String[] args) {
+
+        altaNota();
+
+    }
+
+    private static void altaNota() {
+        Nota_VentaVO nota = new Nota_VentaVO();
+        Date fecha;
+        Time hora;
+        int mesa;
+        Double total;
+
 
     }
 

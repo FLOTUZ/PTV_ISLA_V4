@@ -1,18 +1,21 @@
 package DAO_Y_VO;
 
+import java.sql.Date;
+import java.sql.Time;
+
 public class Nota_VentaVO {
     private int id_notas_folio;
-    private String fecha;
+    private Date fecha;
     private String hora;
     private int mesa;
     private Double total;
     private int clientes_idclientes;
     private int mesero_idmesero;
 
-    Nota_VentaVO() {
+    public Nota_VentaVO() {
     }
 
-    public Nota_VentaVO(int id_notas_folio, String fecha, String hora, int mesa, Double total, int clientes_idclientes, int mesero_idmesero) {
+    public Nota_VentaVO(int id_notas_folio, Date fecha, String hora, int mesa, Double total, int clientes_idclientes, int mesero_idmesero) {
         this.id_notas_folio = id_notas_folio;
         this.fecha = fecha;
         this.hora = hora;
@@ -30,11 +33,11 @@ public class Nota_VentaVO {
         this.id_notas_folio = id_notas_folio;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
@@ -42,8 +45,8 @@ public class Nota_VentaVO {
         return hora;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
+    public void setHora(Time hora) {
+        this.hora = String.valueOf(hora);
     }
 
     public int getMesa() {
