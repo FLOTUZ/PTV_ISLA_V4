@@ -135,4 +135,5 @@ public class NotaVentaDAO {
         }
         return lista_de_notas;
     }
+
 }

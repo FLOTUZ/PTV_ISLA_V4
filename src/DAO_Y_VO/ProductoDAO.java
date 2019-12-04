@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ProductoDAO {
     private Connection conector = null;
@@ -89,5 +90,43 @@ public class ProductoDAO {
         return id;
     }
 
+    public ArrayList<ProductoVO> consultaMasiva() {
+        ArrayList<ProductoVO> lista_de_productos= new ArrayList<>();
+
+        ProductoVO producto = null;
+        //Se encapsula query
+        PreparedStatement consulta = null;
+        //Se obtiene el set de resultado
+        ResultSet resultSet = null;
+
+        //Se crea el query para ponerlo en el objeto PrepareStatement
+        String consultaSQL =
+                "select idproducto, sku, nombre, enStock, precio_unitario, imagen " +
+                        "from producto;";
+
+        try {
+            consulta = conector.prepareStatement(consultaSQL);
+            resultSet = consulta.executeQuery();
+
+            //Mientras haya registros de la BD se ejecuta este codigo
+            while(resultSet != null && resultSet.next()){
+
+                //Se crea el objeto con los datos que retorna la BD
+                producto = new ProductoVO();
+                producto.setId_producto(resultSet.getInt(1));
+                producto.setSku(resultSet.getInt(2));
+                producto.setNombre(resultSet.getString(3));
+                producto.setEnStok(resultSet.getInt(4));
+                producto.setPrecio_unitario(resultSet.getDouble(5));
+                producto.setImagen(resultSet.getBlob(6));
+
+                lista_de_productos.add(producto);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Hubo un error al hacer la consulta");
+        }
+        return lista_de_productos;
+    }
 
 }
