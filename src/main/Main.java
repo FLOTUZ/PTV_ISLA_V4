@@ -4,29 +4,44 @@ package main;
 import DAO_Y_VO.ClienteDAO;
 import DAO_Y_VO.ClienteVO;
 import Conector.Conector;
+import DAO_Y_VO.NotaVentaDAO;
 import DAO_Y_VO.Nota_VentaVO;
 
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Main {
     static Conector con = new Conector();
 
     public static void main(String[] args) {
 
-        altaNota();
+        //altaNota();
 
     }
 
-    private static void altaNota() {
+    private static void altaNota(int cliente ,int mesa, Double total) {
         Nota_VentaVO nota = new Nota_VentaVO();
-        Date fecha;
-        Time hora;
-        int mesa;
-        Double total;
+        NotaVentaDAO inserta_en_bd = null;
+        String fecha;
+        String hora;
 
+        Date date = new Date();
+    //Obtener la hora y formatearlo:
+        DateFormat horaFormat = new SimpleDateFormat("HH:mm:ss");
+        hora = horaFormat.format(date);
+
+    //Obtener la hora y formatearlo:
+        DateFormat fechaFormat = new SimpleDateFormat("yyyy-MM-dd");
+        fecha = fechaFormat.format(date);
+
+        nota.setClientes_idclientes(cliente);
+        nota.setTotal(total);
+        nota.setMesa(mesa);
+        nota.setFecha(fecha);
+        nota.setHora(hora);
+        
+        inserta_en_bd.nuevaNota(nota);
 
     }
 

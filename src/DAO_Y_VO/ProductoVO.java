@@ -3,18 +3,20 @@ package DAO_Y_VO;
 import java.sql.Blob;
 
 public class ProductoVO {
-    private  int id_producto;
+    private int id_producto;
     private int sku;
-    private  String enStok;
+    private String nombre;
+    private int enStok;
     private Double precio_unitario;
     private Blob imagen;
 
     ProductoVO() {
     }
 
-    public ProductoVO(int id_producto, int sku, String enStok, Double precio_unitario, Blob imagen) {
+    public ProductoVO(int id_producto, int sku, String nombre, int enStok, Double precio_unitario, Blob imagen) {
         this.id_producto = id_producto;
         this.sku = sku;
+        this.nombre = nombre;
         this.enStok = enStok;
         this.precio_unitario = precio_unitario;
         this.imagen = imagen;
@@ -36,11 +38,19 @@ public class ProductoVO {
         this.sku = sku;
     }
 
-    public String getEnStok() {
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getEnStok() {
         return enStok;
     }
 
-    public void setEnStok(String enStok) {
+    public void setEnStok(int enStok) {
         this.enStok = enStok;
     }
 
