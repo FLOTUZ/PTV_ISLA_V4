@@ -10,8 +10,12 @@ import java.util.ArrayList;
 public class ProductoDAO {
     private Connection conector = null;
 
-    public ProductoVO getProductoByID(int idproducto) throws SQLException {
-        ProductoVO producto = null;
+    public ProductoDAO(Connection conector) {
+        this.conector = conector;
+    }
+
+    public ProductoVO getProductoBySku(int sku) {
+        ProductoVO producto = new ProductoVO();
         //Se encapsula query
         PreparedStatement consulta = null;
         //Se obtiene el set de resultado
@@ -19,15 +23,15 @@ public class ProductoDAO {
 
         //Se crea el query para ponerlo en el objeto PrepareStatement
         String consultaSQL =
-                "SELECT idproducto, sku,  nombre, enStock, precio_unitario, imagen" +
-                        "FROM producto" +
-                        "where idproducto = ?;";
+                "SELECT idproducto, sku,  nombre, enStock, precio_unitario, imagen " +
+                        "FROM producto " +
+                        "where sku = ?;";
 
         try {
             consulta = conector.prepareStatement(consultaSQL);
 
             //El 1 es el indice del primer signo de interrogación
-            consulta.setInt(1, idproducto);
+            consulta.setInt(1, sku);
 
             resultSet = consulta.executeQuery();
 
@@ -35,7 +39,6 @@ public class ProductoDAO {
             while (resultSet != null && resultSet.next()) {
 
                 //Se crea el objeto con los datos que retorna la BD
-                producto = new ProductoVO();
                 producto.setId_producto(resultSet.getInt(1));
                 producto.setSku(resultSet.getInt(2));
                 producto.setNombre(resultSet.getString(3));
@@ -45,6 +48,7 @@ public class ProductoDAO {
             }
         } catch (SQLException ex) {
         JOptionPane.showMessageDialog(null, "Hubo un error al leer la BD");
+            System.out.println(ex.toString());
     }
         return producto;
     }
@@ -112,7 +116,6 @@ public class ProductoDAO {
             while(resultSet != null && resultSet.next()){
 
                 //Se crea el objeto con los datos que retorna la BD
-                producto = new ProductoVO();
                 producto.setId_producto(resultSet.getInt(1));
                 producto.setSku(resultSet.getInt(2));
                 producto.setNombre(resultSet.getString(3));
@@ -175,14 +178,14 @@ public class ProductoDAO {
         ResultSet generatedKeys = null;
 
         String elimina = "DELETE FROM producto " +
-                "WHERE (idproducto = ?);";
+                "WHERE (sku = ?);";
 
         try{
             conector.setAutoCommit(false);
 
             objetoSQL = conector.prepareStatement(elimina,PreparedStatement.RETURN_GENERATED_KEYS);
 
-            objetoSQL.setInt(1,producto.getId_producto());
+            objetoSQL.setInt(1,producto.getSku());
 
             //Se ejecuta la sentencia
             objetoSQL.executeUpdate();
@@ -197,8 +200,8 @@ public class ProductoDAO {
                 conector.rollback();
                 JOptionPane.showMessageDialog(null,"Se eliminó");
             }catch(SQLException ex1){
-                JOptionPane.showMessageDialog(null, "Error en la transacción \nNo se eliminó cliente");
-                System.out.print("No se eliminó cliente");
+                JOptionPane.showMessageDialog(null, "Error en la transacción \nNo se eliminó producto");
+                System.out.print("No se eliminó producto");
             }
         }
     }

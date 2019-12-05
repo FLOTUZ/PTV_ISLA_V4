@@ -16,7 +16,7 @@ public class MeseroDAO {
     }
 
     public MeseroVO getMeseroById(int idMesero){
-        MeseroVO mesero = null;
+        MeseroVO mesero = new MeseroVO();
         //Se encapsula query
         PreparedStatement consulta = null;
         //Se obtiene el set de resultado

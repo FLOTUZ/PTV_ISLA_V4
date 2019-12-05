@@ -10,7 +10,7 @@ public class ProductoVO {
     private Double precio_unitario;
     private Blob imagen;
 
-    ProductoVO() {
+    public ProductoVO() {
     }
 
     public ProductoVO(int id_producto, int sku, String nombre, int enStok, Double precio_unitario, Blob imagen) {

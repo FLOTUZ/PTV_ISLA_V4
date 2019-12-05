@@ -15,7 +15,7 @@ public class RenglonesDAO {
     }
 
     public RenglonesVO getRenglonById(int idRenglon){
-    RenglonesVO renglon = null;
+    RenglonesVO renglon = new RenglonesVO();;
         //Se encapsula query
         PreparedStatement consulta = null;
         //Se obtiene el set de resultado
@@ -39,7 +39,6 @@ public class RenglonesDAO {
             while(resultSet != null && resultSet.next()){
 
                 //Se crea el objeto con los datos que retorna la BD
-                renglon = new RenglonesVO();
                 renglon.setIdcompra(resultSet.getInt(1));
                 renglon.setCantidad(resultSet.getInt(2));
                 renglon.setProducto_idProducto(resultSet.getInt(3));

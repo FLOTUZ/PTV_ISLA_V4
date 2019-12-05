@@ -1,11 +1,8 @@
 package main;
 
 
-import DAO_Y_VO.ClienteDAO;
-import DAO_Y_VO.ClienteVO;
+import DAO_Y_VO.*;
 import Conector.Conector;
-import DAO_Y_VO.NotaVentaDAO;
-import DAO_Y_VO.Nota_VentaVO;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,8 +13,16 @@ public class Main {
 
     public static void main(String[] args) {
 
-        eliminarCliente();
+        eliminarProducto();
 
+        con.cerrar();
+    }
+
+    private static void eliminarProducto() {
+        ProductoDAO accion = new ProductoDAO(con.conectarMySQL());
+        ProductoVO producto = accion.getProductoBySku(1);
+
+        accion.eliminaProducto(producto);
     }
 
     private static void eliminarCliente() {

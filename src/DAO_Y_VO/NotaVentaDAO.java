@@ -12,7 +12,7 @@ public class NotaVentaDAO {
     }
 
     public Nota_VentaVO getNota_ByID(int idCliente){
-        Nota_VentaVO nota = null;
+        Nota_VentaVO nota = new Nota_VentaVO();
         //Se encapsula query
         PreparedStatement consulta = null;
         //Se obtiene el set de resultado
