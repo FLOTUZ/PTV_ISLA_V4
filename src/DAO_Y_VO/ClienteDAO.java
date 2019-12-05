@@ -138,13 +138,13 @@ public class ClienteDAO {
         ResultSet generatedKeys = null;
         int id = 0;
 
-        String inserta = "UPDATE clientes SET nombre = ?, apellidos = ?, RFC = ?" +
+        String actualiza = "UPDATE clientes SET nombre = ?, apellidos = ?, RFC = ?" +
                 "WHERE (idclientes = ?);";
 
         try{
             conector.setAutoCommit(false);
 
-            objetoSQL = conector.prepareStatement(inserta,PreparedStatement.RETURN_GENERATED_KEYS);
+            objetoSQL = conector.prepareStatement(actualiza,PreparedStatement.RETURN_GENERATED_KEYS);
 
             objetoSQL.setString(1, cliente.getNombre_cliente());
             objetoSQL.setString(2, cliente.getApellidos());
@@ -178,13 +178,13 @@ public class ClienteDAO {
         PreparedStatement objetoSQL = null;
         ResultSet generatedKeys = null;
 
-        String inserta = "DELETE FROM clientes " +
+        String elimina = "DELETE FROM clientes " +
                 "WHERE (idclientes = ?);";
 
         try{
             conector.setAutoCommit(false);
 
-            objetoSQL = conector.prepareStatement(inserta,PreparedStatement.RETURN_GENERATED_KEYS);
+            objetoSQL = conector.prepareStatement(elimina,PreparedStatement.RETURN_GENERATED_KEYS);
 
             objetoSQL.setInt(1,cliente.getId_cliente());
 

@@ -129,6 +129,77 @@ public class ProductoDAO {
         return lista_de_productos;
     }
 
+    public int actualizaProducto(ProductoVO producto){
+        PreparedStatement objetoSQL = null;
+        ResultSet generatedKeys = null;
+        int id = 0;
 
+        String actualiza = "UPDATE producto SET nombre = ?, enStock = ?, precio_unitario = ? " +
+                "WHERE (idproducto = ?);";
 
+        try{
+            conector.setAutoCommit(false);
+
+            objetoSQL = conector.prepareStatement(actualiza,PreparedStatement.RETURN_GENERATED_KEYS);
+
+            objetoSQL.setString(1, producto.getNombre());
+            objetoSQL.setInt(2, producto.getEnStok());
+            objetoSQL.setDouble(3, producto.getPrecio_unitario());
+            objetoSQL.setInt(4,producto.getId_producto());
+
+            //Se ejecuta la sentencia
+            objetoSQL.executeUpdate();
+
+            //Se recogen llaves generadas
+            generatedKeys = objetoSQL.getGeneratedKeys();
+
+            if (generatedKeys.next()) {
+                id = generatedKeys.getConcurrency();
+            }
+            conector.commit();
+
+        }catch(SQLException e){
+            try{
+                conector.rollback();
+                JOptionPane.showMessageDialog(null, "Se acualizó correctamente la info de "+ producto.getNombre());
+            }catch(SQLException ex1){
+                JOptionPane.showMessageDialog(null, "Error en la transacción \nNo se actualizó producto");
+                System.out.print("No se actualizó producto");
+            }
+        }
+        return id;
+    }
+
+    public void eliminaProducto(ProductoVO producto){
+        PreparedStatement objetoSQL = null;
+        ResultSet generatedKeys = null;
+
+        String elimina = "DELETE FROM producto " +
+                "WHERE (idproducto = ?);";
+
+        try{
+            conector.setAutoCommit(false);
+
+            objetoSQL = conector.prepareStatement(elimina,PreparedStatement.RETURN_GENERATED_KEYS);
+
+            objetoSQL.setInt(1,producto.getId_producto());
+
+            //Se ejecuta la sentencia
+            objetoSQL.executeUpdate();
+
+            //Se recogen llaves generadas
+            generatedKeys = objetoSQL.getGeneratedKeys();
+
+            conector.commit();
+
+        }catch(SQLException e){
+            try{
+                conector.rollback();
+                JOptionPane.showMessageDialog(null,"Se eliminó");
+            }catch(SQLException ex1){
+                JOptionPane.showMessageDialog(null, "Error en la transacción \nNo se eliminó cliente");
+                System.out.print("No se eliminó cliente");
+            }
+        }
+    }
 }
