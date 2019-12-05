@@ -16,9 +16,16 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //altaNota();
+        eliminarCliente();
 
     }
+
+    private static void eliminarCliente() {
+        ClienteDAO accion = new ClienteDAO (con.conectarMySQL());
+        ClienteVO cliente = accion.getClienteById(7);
+        accion.eliminaCliente(cliente);
+    }
+
 
     private static void altaNota(int cliente ,int mesa, Double total) {
         Nota_VentaVO nota = new Nota_VentaVO();

@@ -89,7 +89,7 @@ public class ClienteDAO {
                 conector.rollback();
             }catch(SQLException ex1){
                 System.out.println("Error en la transacción ");
-                System.out.print("No se registró el cliente");
+                JOptionPane.showMessageDialog(null,"Error en la transacción \nNo se registró el cliente");
             }
         }
         return id;
@@ -133,5 +133,78 @@ public class ClienteDAO {
         return lista_de_clientes;
     }
 
+    public int actualizaCliente(ClienteVO cliente){
+        PreparedStatement objetoSQL = null;
+        ResultSet generatedKeys = null;
+        int id = 0;
+
+        String inserta = "UPDATE clientes SET nombre = ?, apellidos = ?, RFC = ?" +
+                "WHERE (idclientes = ?);";
+
+        try{
+            conector.setAutoCommit(false);
+
+            objetoSQL = conector.prepareStatement(inserta,PreparedStatement.RETURN_GENERATED_KEYS);
+
+            objetoSQL.setString(1, cliente.getNombre_cliente());
+            objetoSQL.setString(2, cliente.getApellidos());
+            objetoSQL.setString(3, cliente.getRFC());
+            objetoSQL.setInt(4,cliente.getId_cliente());
+
+            //Se ejecuta la sentencia
+            objetoSQL.executeUpdate();
+
+            //Se recogen llaves generadas
+            generatedKeys = objetoSQL.getGeneratedKeys();
+
+            if (generatedKeys.next()) {
+                id = generatedKeys.getConcurrency();
+            }
+            conector.commit();
+
+        }catch(SQLException e){
+            try{
+                conector.rollback();
+                JOptionPane.showMessageDialog(null, "Se acualizó correctamente la info de "+ cliente.getNombre_cliente());
+            }catch(SQLException ex1){
+                JOptionPane.showMessageDialog(null, "Error en la transacción \nNo se actualizó cliente");
+                System.out.print("No se actualizó cliente");
+            }
+        }
+        return id;
+    }
+
+    public void eliminaCliente(ClienteVO cliente){
+        PreparedStatement objetoSQL = null;
+        ResultSet generatedKeys = null;
+
+        String inserta = "DELETE FROM clientes " +
+                "WHERE (idclientes = ?);";
+
+        try{
+            conector.setAutoCommit(false);
+
+            objetoSQL = conector.prepareStatement(inserta,PreparedStatement.RETURN_GENERATED_KEYS);
+
+            objetoSQL.setInt(1,cliente.getId_cliente());
+
+            //Se ejecuta la sentencia
+            objetoSQL.executeUpdate();
+
+            //Se recogen llaves generadas
+            generatedKeys = objetoSQL.getGeneratedKeys();
+
+            conector.commit();
+
+        }catch(SQLException e){
+            try{
+                conector.rollback();
+                JOptionPane.showMessageDialog(null,"Se eliminó");
+            }catch(SQLException ex1){
+                JOptionPane.showMessageDialog(null, "Error en la transacción \nNo se eliminó cliente");
+                System.out.print("No se eliminó cliente");
+            }
+        }
+    }
 
 }
